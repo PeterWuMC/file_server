@@ -12,13 +12,14 @@ end
 
 # .find(:path).get(:download)
 get %r{^/files/(.*)/download\.json$} do |path|
-  puts "****", path
   file_path = File.join(server_path, path)
   if file_path && File.exist?(file_path)
     file = nil
     File.open(file_path, 'rb'){|f| file = f.read}
 
     json({path: path, file: Base64.encode64(file)}, :encoder => :to_json, :content_type => :js)
+  else
+    raise Sinatra::NotFound
   end
 end
 
@@ -27,6 +28,8 @@ get %r{^/files/(.*)\.json$} do |path|
   file_path = File.join(server_path, path)
   if file_path && File.exist?(file_path)
     json({path: path, last_update: File.mtime(file_path)}, :encoder => :to_json, :content_type => :js)
+  else
+    raise Sinatra::NotFound
   end
 end
 
