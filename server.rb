@@ -17,7 +17,7 @@ get %r{^/files/(.*)/download\.json$} do |path|
     file = nil
     File.open(file_path, 'rb'){|f| file = f.read}
 
-    json({path: path, file: Base64.encode64(file)}, :encoder => :to_json, :content_type => :js)
+    json({path: path, file_content: Base64.encode64(file)}, :encoder => :to_json, :content_type => :js)
   else
     raise Sinatra::NotFound
   end
