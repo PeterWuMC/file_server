@@ -1,7 +1,9 @@
+
 require 'sinatra'
 require 'sinatra/json'
 require 'json'
 require 'base64'
+require 'yaml'
 
 require_relative 'helpers/server_helper'
 
