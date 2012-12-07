@@ -1,8 +1,7 @@
 helpers do
 
 	def server_path
-	  # "/media/ukserver"
-	  "/Users/pwu/Workarea/file_server"
+		@@server_path ||= YAML.load(File.read(File.join(Dir.pwd, "config/setup.yml")))["server_path"]
 	end
 
 end
