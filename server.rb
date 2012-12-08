@@ -14,6 +14,7 @@ end
 
 # .find(:path).get(:download)
 get %r{^/server_files/(.*)/download\.json$} do |path|
+  path.gsub!("%20", " ")
   file_path = File.join(server_path, path)
   if file_path && File.exist?(file_path)
     file = nil
@@ -27,6 +28,7 @@ end
 
 #.find(:path)
 get %r{^/server_files/(.*)\.json$} do |path|
+  path.gsub!("%20", " ")
   file_path = File.join(server_path, path)
   if file_path && File.exist?(file_path)
     json({path: path, last_update: File.mtime(file_path)}, :encoder => :to_json, :content_type => :js)
