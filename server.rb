@@ -17,7 +17,7 @@ get '/server_files.json' do
 end
 
 # .find(:path).get(:download)
-get %r{/server_files/(.*)/download\.json} do |key|
+get %r{^/server_files/(.*)/download\.json$} do |key|
   path = Base64.strict_decode64 key
   file_path = File.join(server_path, path)
   if file_path && File.exist?(file_path)
@@ -31,7 +31,7 @@ get %r{/server_files/(.*)/download\.json} do |key|
 end
 
 #.find(:path)
-get %r{/server_files/(.*)\.json} do |key|
+get %r{^/server_files/(.*)\.json$} do |key|
   path = Base64.strict_decode64 key
   file_path = File.join(server_path, path)
   if file_path && File.exist?(file_path)
