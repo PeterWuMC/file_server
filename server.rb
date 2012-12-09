@@ -12,13 +12,13 @@ get '/server_files.json' do
   json(Dir["#{server_path}/**/*"].select{|v| File.file?(v)}.map{|v| {
     last_update: File.mtime(v),
     path:        v.gsub!(/^#{server_path}\//, ""),
-    key:         Base64.encode64(v)
+    key:         Base64.strict_encode64(v)
   }}, :encoder => :to_json, :content_type => :js)
 end
 
 # .find(:path).get(:download)
 get %r{/server_files/(.*)/download\.json} do |key|
-  path = Base64.decode64 key
+  path = Base64.strict_decode64 key
   file_path = File.join(server_path, path)
   if file_path && File.exist?(file_path)
     file = nil
@@ -32,7 +32,7 @@ end
 
 #.find(:path)
 get %r{/server_files/(.*)\.json} do |key|
-  path = Base64.decode64 key
+  path = Base64.strict_decode64 key
   file_path = File.join(server_path, path)
   if file_path && File.exist?(file_path)
     json({key: key, path: path, last_update: File.mtime(file_path)}, :encoder => :to_json, :content_type => :js)
