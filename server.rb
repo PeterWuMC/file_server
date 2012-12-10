@@ -67,6 +67,6 @@ end
 
 
 get '/*' do
-  status 403
+  halt 403
 end
 
