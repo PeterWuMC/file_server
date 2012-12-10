@@ -67,6 +67,6 @@ end
 
 
 get '/*' do
-  raise "Unauthorised"
+  status 403
 end
 
