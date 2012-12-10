@@ -2,8 +2,27 @@ GEM
   remote: http://rubygems.org/
   specs:
     backports (2.6.5)
+    capistrano (2.5.20)
+      highline
+      highline
+      net-scp
+      net-scp (>= 1.0.0)
+      net-sftp
+      net-sftp (>= 2.0.0)
+      net-ssh
+      net-ssh (>= 2.0.14)
+      net-ssh-gateway
+      net-ssh-gateway (>= 1.0.0)
     eventmachine (1.0.0)
+    highline (1.6.1)
     json (1.7.5)
+    net-scp (1.0.4)
+      net-ssh (>= 1.99.1)
+    net-sftp (2.0.5)
+      net-ssh (>= 2.0.9)
+    net-ssh (2.2.2)
+    net-ssh-gateway (1.0.1)
+      net-ssh (>= 1.99.1)
     rack (1.4.1)
     rack-protection (1.2.0)
       rack
@@ -26,6 +45,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  capistrano
   json
   sinatra
   sinatra-contrib
