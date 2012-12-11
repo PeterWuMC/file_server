@@ -10,7 +10,7 @@ require_relative 'helpers/server_helper'
 # .find(:all)
 get '/server_files.json' do
   json(Dir["#{server_path}/**/*"].select{|v| File.file?(v)}.map{|v| {
-    last_update: File.mtime(v),
+    last_update: File.mtime(v).utc,
     path:        v.gsub!(/^#{server_path}\//, ""),
     key:         Base64.strict_encode64(v)
   }}, :encoder => :to_json, :content_type => :js)
@@ -30,7 +30,7 @@ end
 get %r{^/server_files/(.*)\.json$} do |key|
   full_path, path = check_and_return_path(key)
 
-  json({key: key, path: path, last_update: File.mtime(full_path)}, :encoder => :to_json, :content_type => :js)
+  json({key: key, path: path, last_update: File.mtime(full_path).utc}, :encoder => :to_json, :content_type => :js)
 end
 
 #.find(:key).update_attributes(:xxxx, yyyy)
