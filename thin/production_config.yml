@@ -5,9 +5,9 @@ address: 127.0.0.1
 user: root
 # group: root
 port: 8087
-pid: /home/file_server/currenttmp/thin.pid
-rackup: /home/file_server/currentthin/config.ru
-log: /home/file_server/currentlog/thin.log
+pid: /home/system/file_server/currenttmp/thin.pid
+rackup: /home/system/file_server/currentthin/config.ru
+log: /home/system/file_server/currentlog/thin.log
 max_conns: 1024
 timeout: 30
 max_persistent_conns: 512
