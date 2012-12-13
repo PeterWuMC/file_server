@@ -17,7 +17,7 @@ helpers do
 
 
   # TODO: get this from file_manager
-  def self.create_folders_for full_path
+  def create_folders_for full_path
     full_path = File.dirname(full_path)
 
     return if File.directory?(full_path) || ["/", "."].include?(full_path)
@@ -25,7 +25,7 @@ helpers do
     Dir::mkdir(full_path)
   end
 
-  def self.write_file full_path, file_content
+  def write_file full_path, file_content
     create_folders_for full_path
     File.open(full_path, 'w'){|f| f.write(file_content)}
   end
