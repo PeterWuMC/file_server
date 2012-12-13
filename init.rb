@@ -1,4 +1,5 @@
-
+require 'rubygems'
+# require File.expand_path(File.dirname(__FILE__) + '/lib/config')
 require 'sinatra'
 require 'sinatra/json'
 require 'json'
@@ -41,7 +42,7 @@ put %r{^/server_files/(.*)\.json$} do |key|
 
   path         = server_file["path"]
   file_content = Base64.decode64(server_file["file_content"])
-  write_file(path, file_content)
+  write_file(full_path, file_content)
 
   status 200
 end
@@ -55,12 +56,13 @@ delete %r{^/server_files/(.*)\.json$} do |key|
 end
 
 #.new(:xxx => yyy)
-post '/server_files/new.json' do
+post '/server_files.json' do
   server_file  = JSON.parse(request.body.read)["server_file"]
 
   path         = server_file["path"]
+  full_path    = File.join(server_path, path)
   file_content = Base64.decode64(server_file["file_content"])
-  write_file(path, file_content)
+  write_file(full_path, file_content)
 
   status 200
 end

@@ -1,1 +1,7 @@
 config/*.yml
+log/*.log
+log/*.pid
+tmp/*
+tmp/**/*
+thin/development_config.yml
+.DS_Store
