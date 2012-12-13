@@ -37,6 +37,14 @@ set :admin_runner, runner
 #   end
 # end
 
+
+namespace :symlink do
+  task :config, :roles => :app, :except => { :no_release => true } do
+    run "ln -nfs #{shared_path}/config/setup.yml #{release_path}/config/setup.yml"
+    run "ln -nfs #{shared_path}/thin/production_config.yml #{release_path}/thin/production_config.yml"
+  end
+end
+
 namespace :deploy do
   task :start, :roles => [:web, :app] do
     run "cd #{deploy_to}/current && nohup thin -C thin/production_config.yml -R thin/config.ru start"
@@ -57,3 +65,5 @@ namespace :deploy do
     deploy.start
   end
 end
+
+after 'deploy:update_code', 'symlink:config'

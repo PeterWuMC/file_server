@@ -4,4 +4,5 @@ log/*.pid
 tmp/*
 tmp/**/*
 thin/development_config.yml
+thin/production_config.yml
 .DS_Store
