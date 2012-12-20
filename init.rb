@@ -8,6 +8,17 @@ require 'yaml'
 
 require_relative 'helpers/server_helper'
 
+get %r{^/folder/(.*)/list.json$} do |key|
+  puts key
+  full_path, path = check_and_return_path(key)
+
+  json(Dir["#{full_path}/*"].map{|v| {
+    type:        File.file?(v) ? "file" : "folder",
+    path:        v.gsub!(/^#{server_path}\//, ""),
+    key:         Base64.strict_encode64(v),
+  }}, :encoder => :to_json, :content_type => :js)
+end
+
 # .find(:all)
 get '/server_files.json' do
   json(Dir["#{server_path}/**/*"].select{|v| File.file?(v)}.map{|v| {
