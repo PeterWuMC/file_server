@@ -17,7 +17,7 @@ get %r{^/folder/(.*)/list.json$} do |key|
     name:        File.basename(v),
     path:        v.gsub!(/^#{server_path}\//, ""),
     key:         Base64.strict_encode64(v),
-  }}, :encoder => :to_json, :content_type => :js)
+  }.sort_by{|v| v[:type]}.reverse!}, :encoder => :to_json, :content_type => :js)
 end
 
 # .find(:all)
@@ -37,6 +37,12 @@ get %r{^/server_files/(.*)/download\.json$} do |key|
   File.open(full_path, 'rb'){|f| file = f.read}
 
   json({key: key, path: path, file_content: Base64.encode64(file)}, :encoder => :to_json, :content_type => :js)
+end
+
+get %r{^/server_files/(.*)/download$} do |key|
+  full_path, path = check_and_return_path(key)
+
+  send_file(full_path, :disposition => 'attachment', :filename => File.basename(full_path))
 end
 
 #.find(:key)
