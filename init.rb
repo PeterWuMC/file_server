@@ -9,7 +9,7 @@ require 'yaml'
 require_relative 'helpers/server_helper'
 
 get %r{^/folder/(.*)/list.json$} do |key|
-  puts key
+  key = "Lw==" if key == "initial"
   full_path, path = check_and_return_path(key)
 
   json(Dir["#{full_path}/*"].map{|v| {
