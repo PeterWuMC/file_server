@@ -29,6 +29,8 @@ GEM
       rack
     rack-test (0.6.2)
       rack (>= 1.0)
+    rvm-capistrano (1.2.7)
+      capistrano (>= 2.0.0)
     sinatra (1.3.3)
       rack (~> 1.3, >= 1.3.6)
       rack-protection (~> 1.2)
@@ -52,6 +54,7 @@ PLATFORMS
 DEPENDENCIES
   capistrano
   json
+  rvm-capistrano
   sinatra
   sinatra-contrib
   thin

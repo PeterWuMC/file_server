@@ -1,3 +1,7 @@
+require "rvm/capistrano"
+
+set :rvm_ruby_string, "ruby-1.9.3"
+
 set :application, "File Server"
 set :user, "system"
 
