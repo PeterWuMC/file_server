@@ -14,6 +14,7 @@ get %r{^/folder/(.*)/list.json$} do |key|
 
   json(Dir["#{full_path}/*"].map{|v| {
     type:        File.file?(v) ? "file" : "folder",
+    name:        File.basename(v),
     path:        v.gsub!(/^#{server_path}\//, ""),
     key:         Base64.strict_encode64(v),
   }}, :encoder => :to_json, :content_type => :js)
