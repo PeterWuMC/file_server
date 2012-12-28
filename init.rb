@@ -17,7 +17,7 @@ get %r{^/folder/(.*)/list.json$} do |key|
     name:        File.basename(v),
     path:        v.gsub!(/^#{server_path}\//, ""),
     key:         Base64.strict_encode64(v),
-  }.sort_by{|v| v[:type]}.reverse!}, :encoder => :to_json, :content_type => :js)
+  }}.sort_by{|v| v[:type]}.reverse!, :encoder => :to_json, :content_type => :js)
 end
 
 # .find(:all)
