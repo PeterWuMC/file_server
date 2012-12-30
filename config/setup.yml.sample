@@ -1,1 +1,6 @@
 server_path: <your local server path>
+database:
+  db_name: <database name>
+  db_host: <database ip/host>
+  db_username: <user name>
+  db_password: <password>
