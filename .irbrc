@@ -1,4 +1,7 @@
 # encoding: utf-8
-$:.unshift File.join(Dir.pwd, 'lib')
+$:.unshift Dir.pwd
+
+require 'bundler'
+require 'init'
 
 Bundler.require

@@ -1,12 +1,22 @@
 require 'rubygems'
-# require File.expand_path(File.dirname(__FILE__) + '/lib/config')
+
 require 'sinatra'
 require 'sinatra/json'
+require 'sinatra/activerecord'
+
 require 'json'
 require 'base64'
 require 'yaml'
 
+require_relative 'models/models'
+require_relative 'config/initializer'
 require_relative 'helpers/server_helper'
+
+set :database, "mysql2://#{db_settings["db_username"]}:#{db_settings["db_password"]}@#{db_settings["db_host"]}/#{db_settings["db_name"]}"
+
+before do
+  halt 403 if !User.find_by_user_name(params[:user_name]).try(:authenticate, params[:password])
+end
 
 get %r{^/folder/(.*)/list.json$} do |key|
   key = "Lw==" if key == "initial"
