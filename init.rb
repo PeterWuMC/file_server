@@ -15,7 +15,26 @@ require_relative 'helpers/server_helper'
 set :database, "mysql2://#{db_settings["db_username"]}:#{db_settings["db_password"]}@#{db_settings["db_host"]}/#{db_settings["db_name"]}"
 
 before do
-  halt 403 if !User.find_by_user_name(params[:user_name]).try(:authenticate, params[:password])
+  @user_name   = params["user_name"]
+  @password    = params["password"]
+  @device_name = params["device_name"]
+  @device_code = params["device_code"]
+
+  if !is_login_path?
+    halt 403 if !User.allow?(@user_name, @device_code)
+  end
+end
+
+post '/login' do
+  if @user_name && @password && @device_code && @device_name
+    user = User.find_by_user_name(@user_name).try(:authenticate, @password)
+    halt 403 unless user
+    user.find_or_create_device @device_code, @device_name
+  else
+    halt 403
+  end
+
+  status 202 # ACCEPTED
 end
 
 get %r{^/folder/(.*)/list.json$} do |key|

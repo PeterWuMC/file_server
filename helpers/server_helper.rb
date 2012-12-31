@@ -2,6 +2,11 @@ require 'yaml'
 
 helpers do
 
+  def is_login_path?
+    # !(request.path =~ %r{^(?!/login$)})
+    request.path =~ %r{^(/login$)} ? true : false
+  end
+
   def check_and_return_path key
   	path      = Base64.strict_decode64(key)
     full_path = File.join(server_path, path)
