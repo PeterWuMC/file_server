@@ -11,4 +11,5 @@ gem 'mysql2'
 
 gem 'capistrano'
 gem 'rvm-capistrano'
+gem 'capistrano_colors'
 gem 'thin'
