@@ -2,9 +2,9 @@ require 'yaml'
 
 helpers do
 
-  def is_login_path?
-    # !(request.path =~ %r{^(?!/login$)})
-    request.path =~ %r{^(/login$)} ? true : false
+  def is_registration_path?
+    # !(request.path =~ %r{^(?!/registration$)})
+    request.path =~ %r{^(/registration$)} ? true : false
   end
 
   def check_and_return_path key

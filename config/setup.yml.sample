@@ -4,3 +4,4 @@ database:
   db_host: <database ip/host>
   db_username: <user name>
   db_password: <password>
+secret_key: <your secret key>

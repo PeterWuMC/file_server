@@ -5,3 +5,7 @@ end
 def db_settings
   $db_setting ||= YAML.load(File.read(File.join(Dir.pwd, "config/setup.yml")))["database"]
 end
+
+def secret_key
+	$secret_key ||= YAML.load(File.read(File.join(Dir.pwd, "config/setup.yml")))["secret_key"]
+end
