@@ -40,6 +40,16 @@ post '/registration' do
   json({key: device.device_code}, :encoder => :to_json, :content_type => :js)
 end
 
+post '/registration/check' do
+  device      = nil
+  device_code = params["code"]
+
+  user = User.find_by_user_name(@user_name)
+  halt 403 if !user || !user.devices.find_by_device_code(device_code)
+
+  status 200
+end
+
 get %r{^/folder/(.*)/list.json$} do |key|
   key = "Lw==" if key == "initial"
   full_path, path = check_and_return_path(key)
