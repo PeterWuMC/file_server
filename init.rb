@@ -37,7 +37,7 @@ post '/registration' do
     halt 403
   end
   status 202 # ACCEPTED
-  json({key: device.device_id}, :encoder => :to_json, :content_type => :js)
+  json({key: device.device_code}, :encoder => :to_json, :content_type => :js)
 end
 
 post '/registration/check' do
