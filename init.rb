@@ -29,7 +29,7 @@ post '/registration' do
   device_name = params["device_name"]
   device_code = params["device_code"]
 
-  if @user_name && password && device_code && device_name
+  if @user_name && password && device_code
     user   = User.find_by_user_name(@user_name).try(:authenticate, password)
     halt 403 unless user
     device = user.find_or_create_device device_code, device_name
