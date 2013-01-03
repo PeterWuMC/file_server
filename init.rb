@@ -62,6 +62,19 @@ get %r{^/folder/(.*)/list.json$} do |key|
   }}.sort_by{|v| v[:type]}.reverse!, :encoder => :to_json, :content_type => :js)
 end
 
+put %r{^/folder/(.*)/upload.json$} do |key|
+  key = "Lw==" if key == "initial"
+  full_path, path = check_and_return_path(key)
+  halt 500 if !params['file']
+  write_file(File.join(full_path, params['file'][:filename]), params['file'][:tempfile])
+end
+
+
+
+# ###########################
+#      RESTFul
+# ###########################
+
 # .find(:all)
 get '/server_files.json' do
   json(Dir["#{server_path}/**/*"].select{|v| File.file?(v)}.map{|v| {
