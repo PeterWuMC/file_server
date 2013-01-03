@@ -16,7 +16,7 @@ set :database, "mysql2://#{db_settings["db_username"]}:#{db_settings["db_passwor
 
 before do
   @user_name   = params["user_name"]
-  device_code  = params["code"]
+  device_code  = params["device_code"]
 
   if !is_registration_path?
     halt 403 if !User.allow?(@user_name, device_code)
@@ -42,7 +42,7 @@ end
 
 post '/registration/check' do
   device      = nil
-  device_code = params["code"]
+  device_code = params["device_code"]
 
   user = User.find_by_user_name(@user_name)
   halt 403 if !user || !user.devices.find_by_device_code(device_code)
