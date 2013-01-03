@@ -27,17 +27,17 @@ post '/registration' do
   device      = nil
   password    = params["password"]
   device_name = params["device_name"]
-  device_code = params["device_code"]
+  device_id   = params["device_id"]
 
-  if @user_name && password && device_code
+  if @user_name && password && device_id
     user   = User.find_by_user_name(@user_name).try(:authenticate, password)
     halt 403 unless user
-    device = user.find_or_create_device device_code, device_name
+    device = user.find_or_create_device device_id, device_name
   else
     halt 403
   end
   status 202 # ACCEPTED
-  json({key: device.device_code}, :encoder => :to_json, :content_type => :js)
+  json({key: device.device_id}, :encoder => :to_json, :content_type => :js)
 end
 
 post '/registration/check' do
