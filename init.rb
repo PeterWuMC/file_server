@@ -57,7 +57,7 @@ get %r{^/folder/(.*)/list.json$} do |key|
 
   json(Dir["#{full_path}/*"].map{|v|
     SharedFile.new(v)
-  }.sort_by{|v| v[:type]}.reverse!, :encoder => :to_json, :content_type => :js)
+  }.sort_by{|v| v.type}.reverse!, :encoder => :to_json, :content_type => :js)
 end
 
 put %r{^/folder/(.*)/upload.json$} do |key|
