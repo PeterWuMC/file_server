@@ -9,6 +9,7 @@ require 'base64'
 require 'yaml'
 
 require_relative 'models/models'
+require_relative 'models/shared_file'
 require_relative 'config/initializer'
 require_relative 'helpers/server_helper'
 
@@ -54,12 +55,9 @@ get %r{^/folder/(.*)/list.json$} do |key|
   key = "Lw==" if key == "initial"
   full_path, path = check_and_return_path(key)
 
-  json(Dir["#{full_path}/*"].map{|v| {
-    type:        File.file?(v) ? "file" : "folder",
-    name:        File.basename(v),
-    path:        v.gsub!(/^#{server_path}\//, ""),
-    key:         Base64.strict_encode64(v),
-  }}.sort_by{|v| v[:type]}.reverse!, :encoder => :to_json, :content_type => :js)
+  json(Dir["#{full_path}/*"].map{|v|
+    SharedFile.new(v)
+  }.sort_by{|v| v[:type]}.reverse!, :encoder => :to_json, :content_type => :js)
 end
 
 put %r{^/folder/(.*)/upload.json$} do |key|
@@ -77,11 +75,9 @@ end
 
 # .find(:all)
 get '/server_files.json' do
-  json(Dir["#{server_path}/**/*"].select{|v| File.file?(v)}.map{|v| {
-    last_update: File.mtime(v).utc,
-    path:        v.gsub!(/^#{server_path}\//, ""),
-    key:         Base64.strict_encode64(v)
-  }}, :encoder => :to_json, :content_type => :js)
+  json(Dir["#{server_path}/**/*"].select{|v| File.file?(v)}.map{|v|
+    SharedFile.new(v)
+  }, :encoder => :to_json, :content_type => :js)
 end
 
 # .find(:key).get(:download)
@@ -91,6 +87,7 @@ get %r{^/server_files/(.*)/download\.json$} do |key|
   file = nil
   File.open(full_path, 'rb'){|f| file = f.read}
 
+# TODO
   json({key: key, path: path, file_content: Base64.encode64(file)}, :encoder => :to_json, :content_type => :js)
 end
 
@@ -104,7 +101,7 @@ end
 get %r{^/server_files/(.*)\.json$} do |key|
   full_path, path = check_and_return_path(key)
 
-  json({key: key, path: path, last_update: File.mtime(full_path).utc}, :encoder => :to_json, :content_type => :js)
+  json(SharedFile.new(full_path), :encoder => :to_json, :content_type => :js)
 end
 
 #.find(:key).update_attributes(:xxxx, yyyy)
