@@ -65,6 +65,8 @@ put %r{^/folder/(.*)/upload.json$} do |key|
   full_path, path = check_and_return_path(key)
   halt 500 if !params['file']
   write_file(File.join(full_path, params['file'][:filename]), params['file'][:tempfile])
+
+  json(SharedFile.new(full_path), :encoder => :to_json, :content_type => :js)
 end
 
 
