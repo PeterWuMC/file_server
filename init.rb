@@ -60,11 +60,12 @@ get %r{^/folder/(.*)/list.json$} do |key|
   }.sort_by{|v| v.type}.reverse!, :encoder => :to_json, :content_type => :js)
 end
 
-put %r{^/folder/(.*)/upload.json$} do |key|
+post %r{^/folder/(.*)/upload.json$} do |key|
+  puts params
   key = "Lw==" if key == "initial"
   full_path, path = check_and_return_path(key)
   halt 500 if !params['file']
-  write_file(File.join(full_path, params['file'][:filename]), params['file'][:tempfile])
+  write_file(File.join(full_path, params['file'][:filename]), params['file'][:tempfile].read)
 
   json(SharedFile.new(full_path), :encoder => :to_json, :content_type => :js)
 end
