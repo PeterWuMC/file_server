@@ -8,7 +8,7 @@ helpers do
   end
 
   def eval_folder_file_url
-    model, key = request.path.scan(%r{/(server_folders|server_files)/([^/]*)/}).flatten
+    model, key = request.path.scan(%r{/(server_folders|server_files)/([^/]*)(/|.json)}).flatten
     return model, key
   end
 

@@ -27,7 +27,7 @@ before do
       @project = @user.projects.find_by_key(project_key)
       halt 403 if !@project
 
-      if request.path =~ %r{/(server_folders|server_files)/([^/]*)/}
+      if request.path =~ %r{/(server_folders|server_files)/[^/]*(/|.json)}
         model, key = eval_folder_file_url
         key = "Lw==" if key == "initial"
         @full_path, @path = check_and_return_path_with_project(key, @project)
@@ -78,15 +78,18 @@ post %r{^/projects/[^/]*/server_folders/[^/]*/upload$} do
   write_file(File.join(@full_path, params['file'][:filename]), params['file'][:tempfile].read)
 
   json(SharedFile.new(@full_path, @project), :encoder => :to_json, :content_type => :js)
+  status 200
 end
 
 #.delete(:key)
 delete %r{^/projects/[^/]*/server_files/[^/]*.json$} do
   File.delete(@full_path)
+  status 200
 end
 
 get %r{^/projects/[^/]*/server_files/[^/]*/download$} do
   send_file(@full_path, :disposition => 'attachment', :filename => File.basename(@full_path))
+  status 200
 end
 
 
