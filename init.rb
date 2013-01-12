@@ -73,6 +73,12 @@ get %r{^/projects/[^/]*/server_folders/[^/]*/list.json$} do
   }.sort_by{|v| v.type}.reverse!, :encoder => :to_json, :content_type => :js)
 end
 
+post %r{^/projects/[^/]*/server_folders/[^/]*.json$} do
+  folder_name = params["name"]
+  create_folders_for File.join(@full_path, "#{folder_name}/tmp")
+  status 200
+end
+
 post %r{^/projects/[^/]*/server_folders/[^/]*/upload$} do
   halt 500 if !params['file']
   write_file(File.join(@full_path, params['file'][:filename]), params['file'][:tempfile].read)
