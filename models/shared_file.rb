@@ -1,11 +1,13 @@
+require 'Base64'
+
 class SharedFile
 
   attr_reader :type, :name, :path, :key
 
-  def initialize file
+  def initialize file, project
     @type        = File.file?(file) ? "file" : "folder"
     @name        = File.basename(file)
-    temp_path    = file.gsub(/^#{server_path}\//, "")
+    temp_path    = file.gsub(/^#{server_path}\/#{project.name}\//, "")
     @path        = (File.dirname(temp_path) == ".") ? "" : File.dirname(temp_path)
     @key         = Base64.strict_encode64(temp_path)
     if @type == "file"

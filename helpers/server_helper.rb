@@ -4,11 +4,27 @@ helpers do
 
   def is_registration_path?
     # !(request.path =~ %r{^(?!/registration)})
-    request.path =~ %r{^(/registration)} ? true : false
+    request.path =~ %r{^/registration} ? true : false
+  end
+
+  def eval_folder_file_url
+    model, key = request.path.scan(%r{/(server_folders|server_files)/([^/]*)/}).flatten
+    return model, key
+  end
+
+  def check_and_return_path_with_project key, project
+    path      = Base64.strict_decode64(key)
+    base_path = File.join(server_path, project.name)
+
+    full_path = (path == "/") ? base_path : File.join(base_path, path)
+    raise Sinatra::NotFound if !(full_path && File.exist?(full_path))
+    return full_path, path
+  rescue
+    raise Sinatra::NotFound
   end
 
   def check_and_return_path key
-  	path      = Base64.strict_decode64(key)
+    path      = Base64.strict_decode64(key)
     full_path = (path == "/") ? server_path : File.join(server_path, path)
     raise Sinatra::NotFound if !(full_path && File.exist?(full_path))
     return full_path, path
