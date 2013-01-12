@@ -77,8 +77,7 @@ post %r{^/projects/[^/]*/server_folders/[^/]*/upload$} do
   halt 500 if !params['file']
   write_file(File.join(@full_path, params['file'][:filename]), params['file'][:tempfile].read)
 
-  json(SharedFile.new(@full_path, @project), :encoder => :to_json, :content_type => :js)
-  status 200
+  json(SharedFile.new(File.join(@full_path, params['file'][:filename]), @project), :encoder => :to_json, :content_type => :js)
 end
 
 #.delete(:key)
