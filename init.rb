@@ -65,14 +65,7 @@ post %r{^/registration/check$} do
 end
 
 get %r{/projects/list.json} do
-  json(@user.projects.all.map(&:to_h).push(
-    {type: "folder",
-     name: "private",
-     path: "",
-     key: "initial",
-     project_key: Base64.strict_encode64(@user_name),
-     description: "User private folder"
-    }), :encoder => :to_json, :content_type => :js)
+  json(@user.projects.all.map(&:to_h), :encoder => :to_json, :content_type => :js)
 end
 
 get %r{^/projects/[^/]*/server_folders/[^/]*/list.json$} do
