@@ -16,7 +16,11 @@ class Project < ActiveRecord::Base
   end
 
   def to_h
-    {key: self.key,
+    {type: "folder",
+     name: self.name,
+     path: "",
+     key: "initial",
+     project_key: self.key,
      description: self.description}
   end
 
