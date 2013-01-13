@@ -7,6 +7,7 @@ gem 'sinatra-contrib'
 gem 'sinatra-activerecord'
 gem 'bcrypt-ruby'
 gem 'json'
+gem 'haml'
 gem 'mysql2'
 
 gem 'capistrano'

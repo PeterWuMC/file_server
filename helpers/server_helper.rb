@@ -2,9 +2,9 @@ require 'yaml'
 
 helpers do
 
-  def is_registration_path?
+  def is_utility_path?
     # !(request.path =~ %r{^(?!/registration)})
-    request.path =~ %r{^/registration} ? true : false
+    request.path =~ %r{^/(registration|password_reset)} ? true : false
   end
 
   def eval_folder_file_url
