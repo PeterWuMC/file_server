@@ -67,7 +67,7 @@ end
 get %r{/projects/list.json} do
   json(@user.projects.all.map(&:to_h).push(
     {type: "folder",
-     name: @user.user_name,
+     name: "private",
      path: "",
      key: "initial",
      project_key: Base64.strict_encode64(@user_name),
