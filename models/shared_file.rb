@@ -7,6 +7,7 @@ class SharedFile
   def initialize file, project
     @type        = File.file?(file) ? "file" : "folder"
     @name        = File.basename(file)
+    @project_key = project.key
     temp_path    = file.gsub(/^#{server_path}\/#{project.name}\//, "")
     @path        = (File.dirname(temp_path) == ".") ? "" : File.dirname(temp_path)
     @key         = Base64.strict_encode64(temp_path)
