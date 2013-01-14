@@ -8,4 +8,4 @@ $:.unshift File.join(Dir.pwd, '')
 #)
 
 require 'init'
-run Sinatra::Application
+run WuFileServer.new
