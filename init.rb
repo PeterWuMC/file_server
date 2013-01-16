@@ -36,6 +36,8 @@ class WuFileServer < Sinatra::Application
           model, key = eval_folder_file_url
           key = "Lw==" if key == "initial"
           @full_path, @path = check_and_return_path_with_project(key, @project)
+
+          raise Sinatra::NotFound if request.request_method.downcase != "post" && !(@full_path && File.exist?(@full_path))
         end
       end
     end

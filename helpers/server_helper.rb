@@ -17,7 +17,6 @@ helpers do
     base_path = File.join(server_path, project.name)
 
     full_path = (path == "/") ? base_path : File.join(base_path, path)
-    raise Sinatra::NotFound if !(full_path && File.exist?(full_path))
     return full_path, path
   rescue
     raise Sinatra::NotFound
@@ -26,7 +25,6 @@ helpers do
   def check_and_return_path key
     path      = Base64.strict_decode64(key)
     full_path = (path == "/") ? server_path : File.join(server_path, path)
-    raise Sinatra::NotFound if !(full_path && File.exist?(full_path))
     return full_path, path
   rescue
     raise Sinatra::NotFound
