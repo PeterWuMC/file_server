@@ -37,7 +37,7 @@ class WuFileServer < Sinatra::Application
           key = "Lw==" if key == "initial"
           @full_path, @path = check_and_return_path_with_project(key, @project)
 
-          raise Sinatra::NotFound if request.request_method.downcase != "post" && !(@full_path && File.exist?(@full_path))
+          raise Sinatra::NotFound if !@full_path || !(request.request_method.downcase == "post" || File.exist?(@full_path))
         end
       end
     end
