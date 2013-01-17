@@ -9,6 +9,7 @@ gem 'bcrypt-ruby'
 gem 'json'
 gem 'haml'
 gem 'mysql2'
+gem 'rmagick'
 
 gem 'capistrano'
 gem 'rvm-capistrano'
