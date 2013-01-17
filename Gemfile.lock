@@ -49,6 +49,7 @@ GEM
     rack-test (0.6.2)
       rack (>= 1.0)
     rake (10.0.3)
+    rmagick (2.13.1)
     rvm-capistrano (1.2.7)
       capistrano (>= 2.0.0)
     sinatra (1.3.3)
@@ -83,6 +84,7 @@ DEPENDENCIES
   json
   mysql2
   rake
+  rmagick
   rvm-capistrano
   sinatra
   sinatra-activerecord
