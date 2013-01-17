@@ -9,6 +9,8 @@ require 'base64'
 require 'yaml'
 require 'haml'
 
+require 'RMagick'
+
 require_relative 'models/models'
 require_relative 'models/shared_file'
 require_relative 'config/initializer'
