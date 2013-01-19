@@ -60,8 +60,8 @@ class WuFileServer < Sinatra::Application
   end
 
   get '/public/*' do
-    puts params[:splat]
-    puts SharedFile.decrypt_for_public params[:splat].first
+    file = SharedFile.decrypt_for_public params[:splat].first
+    send_file(file, :disposition => 'attachment', :filename => File.basename(file))
   end
 
   get '/*' do
