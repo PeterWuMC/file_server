@@ -30,6 +30,7 @@ GEM
     capistrano_colors (0.5.5)
     daemons (1.1.9)
     eventmachine (1.0.0)
+    gibberish (1.2.0)
     haml (3.1.7)
     highline (1.6.1)
     i18n (0.6.1)
@@ -80,6 +81,7 @@ DEPENDENCIES
   bcrypt-ruby
   capistrano
   capistrano_colors
+  gibberish
   haml
   json
   mysql2

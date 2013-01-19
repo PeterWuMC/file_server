@@ -1,8 +1,9 @@
 require 'base64'
+require 'gibberish'
 
 class SharedFile
 
-  attr_reader :type, :name, :path, :key
+  attr_reader :type, :name, :path, :key, :public_path
 
   def initialize file, project
     @type        = File.file?(file) ? "file" : "folder"
@@ -15,6 +16,17 @@ class SharedFile
       @last_update = File.mtime(file).utc
       @size        = File.size(file)
     end
+    @public_path = SharedFile.encrypt_for_public(file) if @type == "file"
+  end
+
+  def self.encrypt_for_public path
+    cipher = Gibberish::AES.new(public_secret_key)
+    Base64.strict_encode64(cipher.enc(path))
+  end
+
+  def self.decrypt_for_public key
+    cipher = Gibberish::AES.new(public_secret_key)
+    cipher.dec(Base64.strict_decode64(key))
   end
 
 end

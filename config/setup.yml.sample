@@ -5,3 +5,4 @@ database:
   db_username: <user name>
   db_password: <password>
 secret_key: <your secret key>
+public_secret_key: <your public path secret key>

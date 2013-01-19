@@ -59,6 +59,11 @@ class WuFileServer < Sinatra::Application
     json(SharedFile.new(File.join(@full_path, params['file'][:filename]), @project), :encoder => :to_json, :content_type => :js)
   end
 
+  get '/public/*' do
+    puts params[:splat]
+    puts SharedFile.decrypt_for_public params[:splat].first
+  end
+
   get '/*' do
     halt 403
   end

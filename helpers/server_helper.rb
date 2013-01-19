@@ -4,7 +4,7 @@ helpers do
 
   def is_utility_path?
     # !(request.path =~ %r{^(?!/registration)})
-    request.path =~ %r{^/(registration|password_reset)} ? true : false
+    request.path =~ %r{^/(registration|password_reset|public)} ? true : false
   end
 
   def eval_folder_file_url
@@ -29,7 +29,6 @@ helpers do
   rescue
     raise Sinatra::NotFound
   end
-
 
 
   # TODO: get this from file_manager
