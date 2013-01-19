@@ -61,7 +61,9 @@ class WuFileServer < Sinatra::Application
 
   get '/public/*' do
     file = SharedFile.decrypt_for_public params[:splat].first
-    send_file(file, :disposition => 'attachment', :filename => File.basename(file))
+    halt 404 unless file
+
+    send_file file
   end
 
   get '/*' do

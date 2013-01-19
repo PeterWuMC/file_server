@@ -27,6 +27,8 @@ class SharedFile
   def self.decrypt_for_public key
     cipher = Gibberish::AES.new(public_secret_key)
     cipher.dec(Base64.strict_decode64(key))
+  rescue
+    return nil
   end
 
 end
