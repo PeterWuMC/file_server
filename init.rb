@@ -23,8 +23,8 @@ class WuFileServer < Sinatra::Application
   set :database, "mysql2://#{db_settings["db_username"]}:#{db_settings["db_password"]}@#{db_settings["db_host"]}/#{db_settings["db_name"]}"
 
   before do
-    @user_name   = params["user_name"]
-    device_code  = params["device_code"]
+    @user_name  = params["user_name"]
+    device_code = params["device_code"]
 
     if !is_utility_path?
       @user = User.allow?(@user_name, device_code)
@@ -43,6 +43,20 @@ class WuFileServer < Sinatra::Application
         end
       end
     end
+  end
+
+  post '/mobile/upload' do
+    device   = @user.devices.find_by_device_code(params["device_code"])
+    @project = @user.projects.find_by_name(@user.user_name)
+
+    halt 500 if !device || !@project || !params['file']
+
+    @key = Base64.strict_encode64("mobile/#{device.device_name}/")
+    @full_path, @key = check_and_return_path_with_project(@key, @project)
+
+    write_file(File.join(@full_path, params['file'][:filename]), params['file'][:tempfile].read)
+
+    json(SharedFile.new(File.join(@full_path, params['file'][:filename]), @project), :encoder => :to_json, :content_type => :js)
   end
 
   get '/*' do
