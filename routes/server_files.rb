@@ -2,7 +2,7 @@ class WuFileServer < Sinatra::Application
 
   #.delete(:key)
     delete %r{^/projects/[^/]*/server_files/[^/]*.json$} do
-      if File.exists? && File.file?(@full_path)
+      if File.exists?(@full_path) && File.file?(@full_path)
         File.delete(@full_path)
         status 200
       else
