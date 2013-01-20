@@ -23,7 +23,7 @@ class WuFileServer < Sinatra::Application
       image = Magick::Image.read(@full_path).first
       # image.thumbnail(i.columns*0.06, i.rows*0.06).write("#{file}-thumb.jpg")
       attachment('test.jpg')
-      response.write(image.resize_to_fit(60,60).to_blob)
+      response.write(image.resize_to_fit(100,100).to_blob)
       # status 200
     end
 
