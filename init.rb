@@ -28,11 +28,11 @@ class WuFileServer < Sinatra::Application
 
     if !is_utility_path?
       @user = User.allow?(@user_name, device_code)
-      halt 403 if !@user
+      unrecognized_credential if !@user
       if request.path =~ %r{^/projects} && !(request.path =~ %r{/projects/list.json})
         project_key = request.path.scan(%r{^/projects/([^/]*)/}).flatten.first
         @project = @user.projects.find_by_key(project_key)
-        halt 403 if !@project
+        project_not_found if !@project
 
         if request.path =~ %r{/(server_folders|server_files)/[^/]*(/|.json)}
           model, key = eval_folder_file_url
@@ -49,7 +49,7 @@ class WuFileServer < Sinatra::Application
     device   = @user.devices.find_by_device_code(params["device_code"])
     @project = @user.projects.find_by_name(@user.user_name)
 
-    halt 500 if !device || !@project || !params['file']
+    incomplete_data_provided if !device || !@project || !params['file']
 
     @key = Base64.strict_encode64("mobile/#{device.device_name}/")
     @full_path, @key = check_and_return_path_with_project(@key, @project)
@@ -74,13 +74,13 @@ class WuFileServer < Sinatra::Application
 
   get '/public/*' do
     file = SharedFile.decrypt_for_public params[:splat].first
-    halt 404 unless file
+    file_folder_not_found unless file
 
     send_file file
   end
 
   get '/*' do
-    halt 403
+    page_is_not_authorized
   end
 
 end

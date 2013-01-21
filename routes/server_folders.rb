@@ -17,7 +17,7 @@ class WuFileServer < Sinatra::Application
   end
 
   post %r{^/projects/[^/]*/server_folders/[^/]*/upload$} do
-    halt 500 if !params['file']
+    incomplete_data_provided if !params['file']
     write_file(File.join(@full_path, params['file'][:filename]), params['file'][:tempfile].read)
 
     json(SharedFile.new(File.join(@full_path, params['file'][:filename]), @project), :encoder => :to_json, :content_type => :js)
@@ -28,7 +28,7 @@ class WuFileServer < Sinatra::Application
       FileUtils.rm_rf(@full_path)
       status 200
     else
-      halt 404
+      file_folder_not_found
     end
   end
 

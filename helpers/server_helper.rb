@@ -45,4 +45,29 @@ helpers do
     File.open(full_path, 'w'){|f| f.write(file_content)}
   end
 
+
+  def page_is_not_authorized
+    halt 403, json({error_message: "You are not authorized to access the page"}, :encoder => :to_json, :content_type => :js)
+  end
+
+  def unrecognized_credential
+    halt 403, json({error_message: "Does not recognized the credential that have provided"}, :encoder => :to_json, :content_type => :js)
+  end
+
+  def project_not_found
+    halt 403, json({error_message: "Project cannot be found under or not are not authorized to access"}, :encoder => :to_json, :content_type => :js)
+  end
+
+  def incomplete_data_provided
+    halt 500, json({error_message: "Some information is missing from your request"}, :encoder => :to_json, :content_type => :js)
+  end
+
+  def file_folder_not_found
+    halt 404, json({error_message: "File/Folder not found"}, :encoder => :to_json, :content_type => :js)
+  end
+
+  def no_thumbnail
+    halt 404, json({error_message: "Thumbnail is not available for this file"}, :encoder => :to_json, :content_type => :js)
+  end
+
 end

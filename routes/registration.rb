@@ -8,10 +8,10 @@ class WuFileServer < Sinatra::Application
 
     if @user_name && password && device_id
       user   = User.find_by_user_name(@user_name).try(:authenticate, password)
-      halt 403 unless user
+      unrecognized_credential unless user
       device = user.find_or_create_device device_id, device_name
     else
-      halt 403
+      incomplete_data_provided
     end
     status 202 # ACCEPTED
     json({device_code: device.device_code}, :encoder => :to_json, :content_type => :js)
@@ -22,7 +22,7 @@ class WuFileServer < Sinatra::Application
     device_code = params["device_code"]
 
     user = User.find_by_user_name(@user_name)
-    halt 403 if !user || !user.devices.find_by_device_code(device_code)
+    unrecognized_credential if !user || !user.devices.find_by_device_code(device_code)
 
     status 200
   end

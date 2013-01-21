@@ -6,7 +6,7 @@ class WuFileServer < Sinatra::Application
         File.delete(@full_path)
         status 200
       else
-        halt 404
+        file_folder_not_found
       end
     end
 
@@ -16,15 +16,12 @@ class WuFileServer < Sinatra::Application
     end
 
     get %r{^/projects/[^/]*/server_files/[^/]*/thumbnail$} do
-      # send_file(@full_path, :disposition => 'attachment', :filename => File.basename(@full_path))
-      halt 404 if !(["jpg", "png"].include?(File.extname(@full_path).downcase[1..-1]))
+      no_thumbnail if !(["jpg", "png"].include?(File.extname(@full_path).downcase[1..-1]))
 
       content_type 'application/octet-stream'
       image = Magick::Image.read(@full_path).first
-      # image.thumbnail(i.columns*0.06, i.rows*0.06).write("#{file}-thumb.jpg")
       attachment('test.jpg')
       response.write(image.resize_to_fit(100,100).to_blob)
-      # status 200
     end
 
 
