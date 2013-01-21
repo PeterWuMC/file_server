@@ -54,6 +54,19 @@ class WuFileServer < Sinatra::Application
     @key = Base64.strict_encode64("mobile/#{device.device_name}/")
     @full_path, @key = check_and_return_path_with_project(@key, @project)
 
+    if File.exist?(@full_path)
+      ext      = File.extname(@full_path)
+      dir      = File.dirname(@full_path)
+      filename = File.basename(@full_path).scan(%r{(.*)#{ext}}).flatten.first
+      version  = 0
+      Dir["#{File.join(dir, filename)}*#{ext}"].each do |f|
+        tmp_version = File.basename(f).scan(%r{^#{filename}\((\d)\)#{ext}$}).flatten.first
+        tmp_version = tmp_version.to_i if tmp_version
+        version = tmp_version if tmp_version > version
+      end
+      version += 1
+      @full_path = "#{File.join(dir, filename)}(#{version})#{ext}"
+    end
     write_file(File.join(@full_path, params['file'][:filename]), params['file'][:tempfile].read)
 
     json(SharedFile.new(File.join(@full_path, params['file'][:filename]), @project), :encoder => :to_json, :content_type => :js)
