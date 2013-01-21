@@ -9,7 +9,7 @@ gem 'bcrypt-ruby'
 gem 'json'
 gem 'haml'
 gem 'mysql2'
-gem 'rmagick'
+gem 'rmagick', :require => false
 
 gem 'capistrano'
 gem 'rvm-capistrano'
