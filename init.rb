@@ -31,7 +31,7 @@ class WuFileServer < Sinatra::Application
       unrecognized_credential if !@user
       if request.path =~ %r{^/projects} && !(request.path =~ %r{/projects/list.json})
         project_key = request.path.scan(%r{^/projects/([^/]*)/}).flatten.first
-        @project = @user.projects.find_by_key(project_key)
+        @project    = @user.projects.find_by_key(project_key)
         project_not_found if !@project
 
         if request.path =~ %r{/(server_folders|server_files)/[^/]*(/|.json)}
@@ -62,7 +62,7 @@ class WuFileServer < Sinatra::Application
       Dir["#{File.join(dir, filename)}*#{ext}"].each do |f|
         tmp_version = File.basename(f).scan(%r{^#{filename}\((\d)\)#{ext}$}).flatten.first
         tmp_version = tmp_version.to_i if tmp_version
-        version = tmp_version if tmp_version > version
+        version     = tmp_version if tmp_version > version
       end
       version += 1
       @full_path = "#{File.join(dir, filename)}(#{version})#{ext}"

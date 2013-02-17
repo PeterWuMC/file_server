@@ -16,12 +16,13 @@ class WuFileServer < Sinatra::Application
     end
 
     get %r{^/projects/[^/]*/server_files/[^/]*/thumbnail$} do
-      no_thumbnail if !(["jpg", "png"].include?(File.extname(@full_path).downcase[1..-1]))
+      no_thumbnail
+      # no_thumbnail if !(["jpg", "png"].include?(File.extname(@full_path).downcase[1..-1]))
 
-      content_type 'application/octet-stream'
-      image = Magick::Image.read(@full_path).first
-      attachment('test.jpg')
-      response.write(image.resize_to_fit(100,100).to_blob)
+      # content_type 'application/octet-stream'
+      # image = Magick::Image.read(@full_path).first
+      # attachment('test.jpg')
+      # response.write(image.resize_to_fit(100,100).to_blob)
     end
 
 
